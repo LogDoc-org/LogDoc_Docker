@@ -28,7 +28,7 @@ services:
     networks:
       - logdoc-net
   logdoc:
-    image: logdoc/community:version2.0
+    image: logdoc/community:version1.0
     depends_on:
       - clickhouse
       - db
