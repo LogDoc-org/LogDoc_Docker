@@ -1,0 +1,59 @@
+version: '3.6'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: ${PGDATA}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - logdoc-net
+  clickhouse:
+    image: clickhouse/clickhouse-server:22.8.4.7-alpine
+    environment:
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB}
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_USER}
+    restart: always
+    ports:
+      - "${CLICKHOUSE_PORT}:8123"
+    volumes:
+      - ./data:/var/lib/clickhouse/data
+    networks:
+      - logdoc-net
+  logdoc:
+    image: logdoc/community:version2.0
+    depends_on:
+      - clickhouse
+      - db
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      CLICKHOUSE_HOST: ${CLICKHOUSE_HOST}
+      CLICKHOUSE_PORT: ${CLICKHOUSE_PORT}
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB}
+      CLICKHOUSE_USER: ${POSTGRES_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+    restart: always
+    ports:
+      - "${LOG_DOC_PORT}:9000"
+    networks:
+      - logdoc-net
+networks:
+  logdoc-net:
+    driver: bridge
+
+volumes:
+  logdoc_db:
+  logdoc_clickhouse:
+  locdoc:
+  logdoc_networks:
