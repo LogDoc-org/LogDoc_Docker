@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<clickhouse>
+    <http_port from_env="CLICKHOUSE_HTTP_PORT" /> <!-- 8253 -->
+</clickhouse>
