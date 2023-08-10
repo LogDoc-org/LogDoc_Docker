@@ -1,0 +1,28 @@
+<configuration debug="true">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%date] %-5level %C{50}.%M:%L - %message%n%xException</pattern>
+        </encoder>
+    </appender>
+
+    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="FILE">
+        <append>true</append>
+        <encoder>
+            <pattern>[%date] %-5level %C{50}.%M:%L - %message%n%xException</pattern>
+        </encoder>
+        <file>/logdoc/logs/log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/logdoc/logs/log.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger level="ERROR" name="org.apache"/>
+    <logger level="ERROR" name="com.zaxxer"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

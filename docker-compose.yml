@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: "logdoc"
       PGPORT: ${POSTGRES_PORT}
     volumes:
-      - ${PGDATA}:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
     network_mode: host
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
@@ -32,9 +32,9 @@ services:
         soft: 262144
         hard: 262144
     volumes:
-      - ${CLICKDATA}:/var/lib/clickhouse
-      - ./.clickhouse_config.xml:/etc/clickhouse-server/config.d/config.xml
-      - ./click-logs:/var/log/clickhouse-server
+      - ./data/clickhouse:/var/lib/clickhouse
+      - ./configs/clickhouse_server_config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./logs/clickhouse:/var/log/clickhouse-server
     network_mode: host
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:${CLICKHOUSE_HTTP_PORT}/ping || exit 1
@@ -51,18 +51,24 @@ services:
       db:
         condition: service_healthy
     environment:
-      PG_HOST: "localhost"
+      PG_HOST: ${PG_HOST}
       PG_PORT: ${POSTGRES_PORT}
-      PG_DB: "logdoc"
-      PG_USER: "logdoc"
-      PG_PASSWORD: "logdoc"
+      PG_DB: ${PG_DB}
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
 
-      CLICK_HOST: "localhost"
+      CLICK_HOST: ${CLICK_HOST}
       CLICK_PORT: ${CLICKHOUSE_HTTP_PORT}
-      CLICK_DB: "logdoc"
-      CLICK_USER: "logdoc"
-      CLICK_PASSWORD: "logdoc"
+      CLICK_DB: ${CLICK_DB}
+      CLICK_USER: ${CLICK_USER}
+      CLICK_PASSWORD: ${CLICK_PASSWORD}
+
       LOGDOC_PORT: ${LOGDOC_HOST_PORT}
+    volumes:
+      - ./data/logdoc:/logdoc/conf/keys
+      - ./logs/logdoc:/logdoc/logs
+      - ./configs/logdoc_application_config.conf:/logdoc/conf/application.conf
+      - ./configs/logdoc_logback_config.xml:/logdoc/conf/logback.xml
     restart: always
     network_mode: host
 
