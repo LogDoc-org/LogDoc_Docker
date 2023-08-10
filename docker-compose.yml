@@ -51,18 +51,8 @@ services:
       db:
         condition: service_healthy
     environment:
-      PG_HOST: ${PG_HOST}
       PG_PORT: ${POSTGRES_PORT}
-      PG_DB: ${PG_DB}
-      PG_USER: ${PG_USER}
-      PG_PASSWORD: ${PG_PASSWORD}
-
-      CLICK_HOST: ${CLICK_HOST}
       CLICK_PORT: ${CLICKHOUSE_HTTP_PORT}
-      CLICK_DB: ${CLICK_DB}
-      CLICK_USER: ${CLICK_USER}
-      CLICK_PASSWORD: ${CLICK_PASSWORD}
-
       LOGDOC_PORT: ${LOGDOC_HOST_PORT}
     volumes:
       - ./data/logdoc:/logdoc/conf/keys
