@@ -43,7 +43,7 @@ services:
       retries: 5
 
   logdoc:
-    image: logdoc/community:version1.0
+    image: logdoc/community:latest
     container_name: ld_core
     depends_on:
       clickhouse:
@@ -51,21 +51,22 @@ services:
       db:
         condition: service_healthy
     environment:
-      POSTGRES_HOST: "localhost"
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_DB: "logdoc"
-      POSTGRES_USER: "logdoc"
-      POSTGRES_PASSWORD: "logdoc"
+      PG_HOST: "localhost"
+      PG_PORT: ${POSTGRES_PORT}
+      PG_DB: "logdoc"
+      PG_USER: "logdoc"
+      PG_PASSWORD: "logdoc"
 
-      CLICKHOUSE_HOST: "localhost"
-      CLICKHOUSE_PORT: ${CLICKHOUSE_HTTP_PORT}
-      CLICKHOUSE_DB: "logdoc"
-      CLICKHOUSE_USER: "logdoc"
-      CLICKHOUSE_PASSWORD: "logdoc"
+      CLICK_HOST: "localhost"
+      CLICK_PORT: ${CLICKHOUSE_HTTP_PORT}
+      CLICK_DB: "logdoc"
+      CLICK_USER: "logdoc"
+      CLICK_PASSWORD: "logdoc"
+      LOGDOC_PORT: ${LOGDOC_HOST_PORT}
     restart: always
     network_mode: host
 
 volumes:
   logdoc_db:
   logdoc_clickhouse:
-  locdoc:
+  logdoc:
