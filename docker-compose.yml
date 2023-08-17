@@ -2,7 +2,7 @@ version: '3.6'
 services:
   db:
     image: postgres
-    container_name: ld_postgres
+    container_name: LogDoc_postgres
     restart: on-failure
     environment:
       POSTGRES_DB: "logdoc"
@@ -20,7 +20,7 @@ services:
 
   clickhouse:
     image: clickhouse/clickhouse-server:latest
-    container_name: ld_click
+    container_name: LogDoc_clickhouse
     restart: on-failure
     environment:
       CLICKHOUSE_DB: "logdoc"
@@ -44,7 +44,7 @@ services:
 
   logdoc:
     image: logdoc/community:latest
-    container_name: ld_core
+    container_name: LogDoc_core
     depends_on:
       clickhouse:
         condition: service_healthy
