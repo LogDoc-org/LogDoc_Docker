@@ -11,7 +11,8 @@ services:
       PGPORT: ${POSTGRES_PORT}
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
-    network_mode: host
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 3s
@@ -35,7 +36,8 @@ services:
       - ./data/clickhouse:/var/lib/clickhouse
       - ./configs/clickhouse_server_config.xml:/etc/clickhouse-server/config.d/config.xml
       - ./logs/clickhouse:/var/log/clickhouse-server
-    network_mode: host
+    ports:
+      - "${CLICKHOUSE_HTTP_PORT}:${CLICKHOUSE_HTTP_PORT}"
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:${CLICKHOUSE_HTTP_PORT}/ping || exit 1
       interval: 3s
