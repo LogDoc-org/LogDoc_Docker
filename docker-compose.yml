@@ -51,8 +51,8 @@ services:
       db:
         condition: service_healthy
     environment:
-      PG_PORT: ${POSTGRES_PORT}
-      CLICK_PORT: ${CLICKHOUSE_HTTP_PORT}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      CLICKHOUSE_HTTP_PORT: ${CLICKHOUSE_HTTP_PORT}
       LOGDOC_PORT: ${LOGDOC_HOST_PORT}
     volumes:
       - ./data/logdoc:/logdoc/conf/keys
