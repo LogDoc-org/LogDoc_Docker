@@ -53,7 +53,7 @@ services:
     environment:
       POSTGRES_PORT: ${POSTGRES_PORT}
       CLICKHOUSE_HTTP_PORT: ${CLICKHOUSE_HTTP_PORT}
-      LOGDOC_PORT: ${LOGDOC_HOST_PORT}
+      LOGDOC_HOST_PORT: ${LOGDOC_HOST_PORT}
     volumes:
       - ./data/logdoc:/logdoc/conf/keys
       - ./logs/logdoc:/logdoc/logs
